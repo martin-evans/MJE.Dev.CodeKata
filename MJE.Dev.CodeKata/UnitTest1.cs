@@ -6,7 +6,7 @@ namespace MJE.Dev.CodeKata
 {
     public class StringCalculatorTests
     {
-        
+
         [TestCaseSource(nameof(TestData))]
         public void Add_WithStringValues_ShouldReturnSum(string numberString, int expectedSum)
         {
@@ -36,6 +36,15 @@ namespace MJE.Dev.CodeKata
             Add_WithStringValues_ShouldReturnSum(values, sum);
         }
 
+        [Test]
+        public void Add_WithNegativeStringValues_ShouldThrow()
+        {
+            var stringCalculator = new StringCalculator();
+
+            Assert.Throws<Exception>(() => stringCalculator.Add("-1"));
+        }
+
+
     }
 
     public class StringCalculator
@@ -47,7 +56,18 @@ namespace MJE.Dev.CodeKata
                 return 0;
             }
 
-            var nums = value.Split(new []{",", "\n"}, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+            char delim = default;
+
+            if (value.StartsWith("//"))
+            {
+                delim = value[2];
+
+                value = value.Remove(0, 3);
+            }
+
+            var actualDelim = delim != default ? new [] { delim } : new[] {',', '\n'};
+
+            var nums = value.Split(actualDelim, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
 
             return nums.Select(int.Parse).Sum();
         }
