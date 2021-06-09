@@ -11,13 +11,33 @@ namespace CCG.Dev.CodeKata
 
             int res = stringCalculator.Add("");
         }
+
+        [Test]
+        public void Add_TakesEmptyString_ReturnsZero()
+        {
+            var stringCalculator = new StringCalculator();
+
+            var res = stringCalculator.Add(string.Empty);
+
+            Assert.AreEqual(res, 0);
+        }
+
+        [Test]
+        public void Add_TakesOne_ReturnsOne()
+        {
+            var stringCalculator = new StringCalculator();
+
+            var res = stringCalculator.Add("1");
+
+            Assert.AreEqual(res, 1);
+        }
     }
 
     public class StringCalculator
     {
-        public int Add(string empty)
+        public int Add(string value)
         {
-            throw new System.NotImplementedException();
+            return 0;
         }
     }
 }
