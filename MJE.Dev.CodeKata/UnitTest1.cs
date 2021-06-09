@@ -36,12 +36,27 @@ namespace MJE.Dev.CodeKata
             Add_WithStringValues_ShouldReturnSum(values, sum);
         }
 
-        [Test]
-        public void Add_WithNegativeStringValues_ShouldThrow()
+        [TestCase("1,-1", "-1")]
+        [TestCase("1,-1,3,-2", "-1,-2")]
+        public void Add_WithNegativeStringValues_ShouldThrow(string numberString, string expectedValues)
         {
             var stringCalculator = new StringCalculator();
 
-            Assert.Throws<Exception>(() => stringCalculator.Add("-1"));
+            var expectedMessage = $"negatives not allowed {expectedValues}";
+
+            try
+            {
+                stringCalculator.Add("-1");
+            }
+            catch (Exception e) when (e.Message.Equals(expectedMessage))
+            {
+                Assert.Pass();
+            }
+            catch 
+            {
+                Assert.Fail($"Expected Message : {expectedMessage} ");
+            }
+
         }
 
 
@@ -69,7 +84,14 @@ namespace MJE.Dev.CodeKata
 
             var nums = value.Split(actualDelim, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
 
-            return nums.Select(int.Parse).Sum();
+            var numericValues =  nums.Select(int.Parse).ToArray();
+
+            if (numericValues.Any(x=>x < 0))
+            {
+                throw new Exception($"negatives not allowed {numericValues.First(x=> x <0)}");
+            }
+            
+            return numericValues.Sum();
         }
     }
 }
