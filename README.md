@@ -1,7 +1,7 @@
 # Introduction 
 TDD Code katas promote mastery through repetition. They also promote collabaorative coding and thinking across a team, leading to greater cohesion, trust and utlimately, performance.
 
-#Getting Started
+## Getting Started
 Run each kata on a new branch. Invoke
 
 `Create-KataInstanceBranch`
@@ -11,7 +11,7 @@ Run each kata on a new branch. Invoke
 
 
 
-#Format
+## Format
 The kata consists of a zoom call which will last for a maximum of 40 mins.
 
 Each kata runs in a branch off Master the root of master, ensuring the same kata is ran from the same starting point each time.
