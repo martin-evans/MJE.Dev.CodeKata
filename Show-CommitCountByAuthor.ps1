@@ -1,0 +1,2 @@
+
+(git log --all --pretty='%cn') | select | ForEach-Object { [PSCustomObject][ordered] @{ DevName= $_ } } | group-object DevName | select-object @{Label="Dev";Expression={$_.Name}},Count  | Sort-Object count -Descending 
