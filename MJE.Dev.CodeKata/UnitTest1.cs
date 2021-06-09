@@ -4,15 +4,20 @@ namespace CCG.Dev.CodeKata
 {
     public class DummyTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
-        public void TestToEnsureIsWorking()
+        public void Add_TakesString_ReturnsInt()
         {
-            Assert.Pass();
+            var stringCalculator = new StringCalculator();
+
+            int res = stringCalculator.Add("");
+        }
+    }
+
+    public class StringCalculator
+    {
+        public int Add(string empty)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
