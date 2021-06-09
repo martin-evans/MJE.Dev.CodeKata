@@ -9,7 +9,7 @@ namespace MJE.Dev.CodeKata
         [TestCaseSource(nameof(TestData))]
         public void Add_WithStringValues_ShouldReturnSum(string numberString, int expectedSum)
         {
-            var res = StringCalculator.Add(numberString);
+            var res = new StringCalculator().Add(numberString);
 
             Assert.AreEqual(expectedSum, res);
         }
@@ -42,7 +42,7 @@ namespace MJE.Dev.CodeKata
 
             try
             {
-                StringCalculator.Add(numberString);
+                new StringCalculator().Add(numberString);
             }
             catch (Exception e) when (e.Message.Equals(expectedMessage))
             {
@@ -59,66 +59,17 @@ namespace MJE.Dev.CodeKata
         {
             var stringCalculator = new StringCalculator();
 
-            for (var i = 0; i <= 3; i++)
+            var expected = 0;
+            for (var i = 0; i <= 99; i++)
             {
-                var _ = StringCalculator.Add(i.ToString());
+                expected++;
+                
+                var _ = stringCalculator.Add(i.ToString());
             }
 
             var res = stringCalculator.GetCalledCount();
 
-            Assert.AreEqual(3, res);
-        }
-    }
-
-    public class StringCalculator
-    {
-        public static int Add(string value)
-        {
-            char[] GetDelims()
-            {
-                char delim = default;
-
-                if (value.StartsWith("//"))
-                {
-                    delim = value[2];
-
-                    value = value.Remove(0, 3);
-                }
-
-                var chars = delim != default ? new[] {delim} : new[] {',', '\n'};
-                return chars;
-            }
-
-            static void ValidateNumericValues(int[] ints)
-            {
-                var negativeNumericValues = ints.Where(x => x < 0).ToArray();
-
-                if (negativeNumericValues.Any())
-                {
-                    throw new Exception($"negatives not allowed {string.Join(",", negativeNumericValues)}");
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return 0;
-            }
-
-            var actualDelim = GetDelims();
-
-            var nums =
-                value
-                    .Split(actualDelim, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                    .Select(int.Parse).ToArray();
-
-            ValidateNumericValues(nums);
-
-            return nums.Sum();
-        }
-
-        public int GetCalledCount()
-        {
-            return 0;
+            Assert.AreEqual(expected, res);
         }
     }
 }
