@@ -6,43 +6,24 @@ namespace MJE.Dev.CodeKata
 {
     public class StringCalculatorTests
     {
-        [Test]
-        public void Add_TakesString_ReturnsInt()
+        
+        [TestCaseSource(nameof(TestData))]
+        public void Add_WithStringValues_ShouldReturnSum(string numberString, int expectedSum)
         {
             var stringCalculator = new StringCalculator();
 
-            int res = stringCalculator.Add("");
+            var res = stringCalculator.Add(numberString);
+
+            Assert.AreEqual(expectedSum,res);
         }
 
-        [Test]
-        public void Add_TakesEmptyString_ReturnsZero()
-        {
-            var stringCalculator = new StringCalculator();
-
-            var res = stringCalculator.Add(string.Empty);
-
-            Assert.AreEqual(res, 0);
-        }
-
-        [Test]
-        public void Add_TakesOne_ReturnsOne()
-        {
-            var stringCalculator = new StringCalculator();
-
-            var res = stringCalculator.Add("1");
-
-            Assert.AreEqual(res, 1);
-        }
-
-        [Test]
-        public void Add_TakesCsvString_ReturnsSum()
-        {
-            var stringCalculator = new StringCalculator();
-
-            var res = stringCalculator.Add("1,2");
-
-            Assert.AreEqual(res, 3);
-        }
+        public static object[] TestData = {
+            new object[] {"", 0},
+            new object[] {"1", 1},
+            new object[] {"1,2", 3},
+            new object[] {"1\n2,3", 6},
+            new object[] {"//;\n1;2", 3},
+        };
 
         [Test]
         public void Add_TakesRandomAmountOfNumbers_ReturnsSum()
@@ -52,22 +33,9 @@ namespace MJE.Dev.CodeKata
 
             var values = string.Join(",", nums);
 
-            var stringCalculator = new StringCalculator();
-
-            var res = stringCalculator.Add(values);
-
-            Assert.AreEqual(sum, res);
+            Add_WithStringValues_ShouldReturnSum(values, sum);
         }
 
-        [Test]
-        public void Add_TakesCsvOrNewLineString_ReturnsSum()
-        {
-            var stringCalculator = new StringCalculator();
-
-            var res = stringCalculator.Add("1\n2,3");
-
-            Assert.AreEqual(res, 6);
-        }
     }
 
     public class StringCalculator
@@ -79,7 +47,7 @@ namespace MJE.Dev.CodeKata
                 return 0;
             }
 
-            var nums = value.Split(',', StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+            var nums = value.Split(new []{",", "\n"}, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
 
             return nums.Select(int.Parse).Sum();
         }
