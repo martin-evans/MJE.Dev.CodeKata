@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace CCG.Dev.CodeKata
+namespace MJE.Dev.CodeKata
 {
-    public class DummyTests
+    public class StringCalculatorTests
     {
         [Test]
         public void Add_TakesString_ReturnsInt()
@@ -31,13 +31,23 @@ namespace CCG.Dev.CodeKata
 
             Assert.AreEqual(res, 1);
         }
+
+        [Test]
+        public void Add_TakesCsvString_ReturnsSum()
+        {
+            var stringCalculator = new StringCalculator();
+
+            var res = stringCalculator.Add("1,2");
+
+            Assert.AreEqual(res, 3);
+        }
     }
 
     public class StringCalculator
     {
         public int Add(string value)
         {
-            return 0;
+            return value == string.Empty ? 0 : 1;
         }
     }
 }
