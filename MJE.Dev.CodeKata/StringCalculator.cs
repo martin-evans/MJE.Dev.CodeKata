@@ -57,5 +57,7 @@ namespace MJE.Dev.CodeKata
         {
             return _calledCount;
         }
+
+        public event Action<string, int> AddOccurred;
     }
 }

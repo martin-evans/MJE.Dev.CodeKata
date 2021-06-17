@@ -71,5 +71,20 @@ namespace MJE.Dev.CodeKata
 
             Assert.AreEqual(expected, res);
         }
+
+        [Test]
+        public void EventTest()
+        {
+            var stringCalculator = new StringCalculator();
+
+            var passed = false;
+
+            stringCalculator.AddOccurred += (string input, int result) => { passed = true; };
+            
+            Assert.That(passed);
+
+
+
+        }
     }
 }
