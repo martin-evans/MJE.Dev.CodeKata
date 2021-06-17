@@ -27,7 +27,7 @@ namespace MJE.Dev.CodeKata
 
             ValidateNumericValues(nums);
 
-            var sum = nums.Sum();
+            var sum = nums.Sum(i => i > 1000 ? 0 : i);
 
             AddOccurred?.Invoke(value, sum);
 

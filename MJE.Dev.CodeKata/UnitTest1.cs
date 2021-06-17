@@ -22,6 +22,7 @@ namespace MJE.Dev.CodeKata
             new object[] {"1\n2,3", 6},
             new object[] {"//;\n1;2", 3},
             new object[] {"2,1001", 2},
+            new object[] {"//[***]\n1***2***3", 6}
         };
 
         [Test]
