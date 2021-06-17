@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MJE.Dev.CodeKata
@@ -10,38 +11,14 @@ namespace MJE.Dev.CodeKata
         public  int Add(string value)
         {
             _calledCount++;
-            
-            char[] GetDelims()
-            {
-                char delim = default;
-
-                if (value.StartsWith("//"))
-                {
-                    delim = value[2];
-
-                    value = value.Remove(0, 3);
-                }
-
-                var chars = delim != default ? new[] {delim} : new[] {',', '\n'};
-                return chars;
-            }
-
-            static void ValidateNumericValues(int[] ints)
-            {
-                var negativeNumericValues = ints.Where(x => x < 0).ToArray();
-
-                if (negativeNumericValues.Any())
-                {
-                    throw new Exception($"negatives not allowed {string.Join(",", negativeNumericValues)}");
-                }
-            }
 
             if (string.IsNullOrWhiteSpace(value))
             {
+                AddOccurred?.Invoke(value, 0);
                 return 0;
             }
 
-            var actualDelim = GetDelims();
+            var actualDelim = GetDelims(ref value);
 
             var nums =
                 value
@@ -50,7 +27,36 @@ namespace MJE.Dev.CodeKata
 
             ValidateNumericValues(nums);
 
-            return nums.Sum();
+            var sum = nums.Sum();
+
+            AddOccurred?.Invoke(value, sum);
+
+            return sum;
+        }
+
+        private static void ValidateNumericValues(IEnumerable<int> ints)
+        {
+            var negativeNumericValues = ints.Where(x => x < 0).ToArray();
+
+            if (negativeNumericValues.Any())
+            {
+                throw new Exception($"negatives not allowed {string.Join(",", negativeNumericValues)}");
+            }
+        }
+
+        private static char[] GetDelims(ref string value)
+        {
+            char delim = default;
+
+            if (value.StartsWith("//"))
+            {
+                delim = value[2];
+
+                value = value.Remove(0, 3);
+            }
+
+            var chars = delim != default ? new[] {delim} : new[] {',', '\n'};
+            return chars;
         }
 
         public int GetCalledCount()

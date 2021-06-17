@@ -21,6 +21,7 @@ namespace MJE.Dev.CodeKata
             new object[] {"1,2", 3},
             new object[] {"1\n2,3", 6},
             new object[] {"//;\n1;2", 3},
+            new object[] {"2,1001", 2},
         };
 
         [Test]
@@ -41,7 +42,7 @@ namespace MJE.Dev.CodeKata
             var expectedMessage = $"negatives not allowed {expectedValues}";
 
             Assert.Throws(Is.TypeOf<Exception>()
-                    .And.Message.EqualTo($"{expectedMessage}"), 
+                    .And.Message.EqualTo($"{expectedMessage}"),
                 () => new StringCalculator().Add(numberString));
         }
 
@@ -54,7 +55,7 @@ namespace MJE.Dev.CodeKata
             for (var i = 0; i <= 99; i++)
             {
                 expected++;
-                
+
                 var _ = stringCalculator.Add(i.ToString());
             }
 
@@ -64,18 +65,17 @@ namespace MJE.Dev.CodeKata
         }
 
         [Test]
-        public void EventTest()
+        public void When_CalculatorAdds_Event_Is_Raised()
         {
             var stringCalculator = new StringCalculator();
 
             var passed = false;
 
             stringCalculator.AddOccurred += (string input, int result) => { passed = true; };
-            
-            Assert.That(passed);
 
+            stringCalculator.Add(string.Empty);
 
-
+            Assert.IsTrue(passed);
         }
     }
 }
