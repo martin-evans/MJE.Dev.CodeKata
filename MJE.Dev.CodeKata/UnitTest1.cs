@@ -40,18 +40,9 @@ namespace MJE.Dev.CodeKata
         {
             var expectedMessage = $"negatives not allowed {expectedValues}";
 
-            try
-            {
-                new StringCalculator().Add(numberString);
-            }
-            catch (Exception e) when (e.Message.Equals(expectedMessage))
-            {
-                Assert.Pass();
-            }
-            catch
-            {
-                Assert.Fail($"Expected Message : {expectedMessage} ");
-            }
+            Assert.Throws(Is.TypeOf<Exception>()
+                    .And.Message.EqualTo($"{expectedMessage}"), 
+                () => new StringCalculator().Add(numberString));
         }
 
         [Test]
