@@ -6,9 +6,9 @@ namespace MJE.Dev.CodeKata
 {
     public class StringCalculator
     {
-
         private int _calledCount = 0;
-        public  int Add(string value)
+
+        public int Add(string value)
         {
             _calledCount++;
 
@@ -44,18 +44,32 @@ namespace MJE.Dev.CodeKata
             }
         }
 
-        private static char[] GetDelims(ref string value)
+        private static string[] GetDelims(ref string value)
         {
-            char delim = default;
+            string delim = default;
 
             if (value.StartsWith("//"))
             {
-                delim = value[2];
+                // //[***]
+                var splitDelim = value.Split('\n')[0];
 
-                value = value.Remove(0, 3);
+                // //[, ***, ]
+                var longDelim = splitDelim.Split('[', ']');
+
+                if (longDelim.Length == 3)
+                {
+                    delim = longDelim[1];
+                    value = value.Remove(0, splitDelim.Length + 1);
+                }
+                else
+                {
+                    delim = value[2].ToString();
+                    value = value.Remove(0, 3);
+                }
             }
 
-            var chars = delim != default ? new[] {delim} : new[] {',', '\n'};
+            var chars = delim != default ? new[] {delim} : new[] {",", "\n"};
+
             return chars;
         }
 
