@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Katas", "Katas", "{F5972214
 		OsheroveTDDKata1.txt = OsheroveTDDKata1.txt
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MJE.Dev.CodeKata.FingStringCalculator", "MJE.Dev.CodeKata.FingStringCalculator\MJE.Dev.CodeKata.FingStringCalculator.fsproj", "{0597AA9F-FFE5-48F0-9E4D-7DA58A59DED1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{A7AC3160-0D71-492A-9A2B-4AD2848DE951}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7AC3160-0D71-492A-9A2B-4AD2848DE951}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7AC3160-0D71-492A-9A2B-4AD2848DE951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0597AA9F-FFE5-48F0-9E4D-7DA58A59DED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0597AA9F-FFE5-48F0-9E4D-7DA58A59DED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0597AA9F-FFE5-48F0-9E4D-7DA58A59DED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0597AA9F-FFE5-48F0-9E4D-7DA58A59DED1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

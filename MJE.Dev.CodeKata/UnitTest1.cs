@@ -1,18 +1,16 @@
+using MJE.Dev.CodeKata.FingStringCalculator;
 using NUnit.Framework;
 
-namespace CCG.Dev.CodeKata
+namespace MJE.Dev.CodeKata
 {
     public class DummyTests
     {
-        [SetUp]
-        public void Setup()
+        [TestCase("", 0)]
+        [TestCase("1", 1)]
+        [TestCase("1,2", 3)]
+        public void AddTakesString_ReturnsSum(string csvString, int expectedValue)
         {
-        }
-
-        [Test]
-        public void TestToEnsureIsWorking()
-        {
-            Assert.Pass();
+            Assert.AreEqual(expectedValue, StringCalculator.Add(csvString));
         }
     }
 }
