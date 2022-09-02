@@ -11,12 +11,20 @@ namespace CCG.Dev.CodeKata
         }
 
         [Test]
-        public void AddTakesStringReturnsSum()
+        public void AddTakesEmptyStringReturnsZero()
         {
             var sut = new StringCalculator();
             int sum = sut.Add("");
 
             Assert.AreEqual(0, sum);
+        }
+
+        [Test]
+        public void AddTakesOneReturnsOne() {
+            var sut = new StringCalculator();
+            int sum = sut.Add("1");
+
+            Assert.AreEqual(1, sum);
         }
 
     }
@@ -29,7 +37,7 @@ namespace CCG.Dev.CodeKata
 
         internal int Add(string v)
         {
-            throw new NotImplementedException();
+            return 0;
         }
     }
 }
