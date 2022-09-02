@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace CCG.Dev.CodeKata
 {
@@ -8,17 +9,16 @@ namespace CCG.Dev.CodeKata
 
         [Test]
         public void AddTakesEmptyStringReturnsZero()
-        {
-            var sut = new StringCalculator();
-            int sum = sut.Add("");
+        {            
+            int sum = StringCalculator.Add("");
 
             Assert.AreEqual(0, sum);
         }
 
         [Test]
         public void AddTakesOneReturnsOne() {
-            var sut = new StringCalculator();
-            int sum = sut.Add("1");
+            
+            int sum = StringCalculator.Add("1");
 
             Assert.AreEqual(1, sum);
         }
@@ -26,33 +26,46 @@ namespace CCG.Dev.CodeKata
         [Test]
         public void AddTakesCsvValueReturnsSum()
         {
-            var sut = new StringCalculator();
-            int sum = sut.Add("1,2");
+            int sum = StringCalculator.Add("1,2");
 
             Assert.AreEqual(3, sum);
         }
 
         [Test]
         public void AddTakesRandomCsvValueReturnsSum() {
-            var sut = new StringCalculator();
-            int sum = sut.Add("18,24,4");
+
+            int sum = StringCalculator.Add("18,24,4");
 
             Assert.AreEqual(46, sum);
+        }
+
+
+        [Test]
+        public void AddTakesAnotherRandomCsvValueReturnsSum()
+        {            
+            int sum = StringCalculator.Add("18,24,4,66");
+
+            Assert.AreEqual(112, sum);
+        }
+
+        [Test]
+        public void AddHAndlesNewLinesBetweenNumbers()
+        {
+
+            int sum = StringCalculator.Add("1\n2,3");
+
+            Assert.AreEqual(6, sum);
+
         }
 
     }
 
     internal class StringCalculator
     {        
-        internal int Add(string numberString)
-        {
-            if (string.IsNullOrEmpty(numberString)) {
-                return 0;
-            } else if (numberString == "1") {
-                return 1;
-            } else {
-                return 3;
-            }
+        static internal int Add(string numberString)
+        {            
+            return string.IsNullOrEmpty(numberString) 
+                ? 0 : numberString.Split(",").Select(int.Parse).Sum();
         }
     }
 }
