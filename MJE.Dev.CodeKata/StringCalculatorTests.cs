@@ -23,6 +23,15 @@ namespace CCG.Dev.CodeKata
             Assert.AreEqual(1, sum);
         }
 
+        [Test]
+        public void AddTakesCsvValueReturnsSum()
+        {
+            var sut = new StringCalculator();
+            int sum = sut.Add("1,2");
+
+            Assert.AreEqual(3, sum);
+        }
+
     }
 
     internal class StringCalculator
