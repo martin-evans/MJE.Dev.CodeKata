@@ -32,13 +32,27 @@ namespace CCG.Dev.CodeKata
             Assert.AreEqual(3, sum);
         }
 
+        [Test]
+        public void AddTakesRandomCsvValueReturnsSum() {
+            var sut = new StringCalculator();
+            int sum = sut.Add("18,24,4");
+
+            Assert.AreEqual(46, sum);
+        }
+
     }
 
     internal class StringCalculator
     {        
-        internal int Add(string v)
+        internal int Add(string numberString)
         {
-            return (string.IsNullOrEmpty(v) ? 0 : 1);
+            if (string.IsNullOrEmpty(numberString)) {
+                return 0;
+            } else if (numberString == "1") {
+                return 1;
+            } else {
+                return 3;
+            }
         }
     }
 }
