@@ -3,12 +3,8 @@ using System;
 
 namespace CCG.Dev.CodeKata
 {
-    public class DummyTests
-    {
-        [SetUp]
-        public void Setup()
-        {
-        }
+    public class StringCalculatorTests
+    {     
 
         [Test]
         public void AddTakesEmptyStringReturnsZero()
@@ -30,14 +26,10 @@ namespace CCG.Dev.CodeKata
     }
 
     internal class StringCalculator
-    {
-        public StringCalculator()
-        {
-        }
-
+    {        
         internal int Add(string v)
         {
-            return 0;
+            return (string.IsNullOrEmpty(v) ? 0 : 1);
         }
     }
 }
