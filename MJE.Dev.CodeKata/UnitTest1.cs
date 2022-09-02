@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace CCG.Dev.CodeKata
 {
@@ -10,9 +11,25 @@ namespace CCG.Dev.CodeKata
         }
 
         [Test]
-        public void TestToEnsureIsWorking()
+        public void AddTakesStringReturnsSum()
         {
-            Assert.Pass();
+            var sut = new StringCalculator();
+            int sum = sut.Add("");
+
+            Assert.AreEqual(0, sum);
+        }
+
+    }
+
+    internal class StringCalculator
+    {
+        public StringCalculator()
+        {
+        }
+
+        internal int Add(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
