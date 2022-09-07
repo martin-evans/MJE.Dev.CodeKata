@@ -12,6 +12,7 @@ namespace CCG.Dev.CodeKata
         [TestCase("18,24,4", 46)]
         [TestCase("18,24,4,66", 112)]
         [TestCase("1\n2,3", 6)]
+        [TestCase("//;\n1;2", 3)]
         public void AddReturnsSum(string csvString, int expectedResult) {
             var sum = StringCalculator.Add(csvString);
 
