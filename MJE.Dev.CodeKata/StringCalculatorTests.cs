@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CCG.Dev.CodeKata
@@ -13,6 +14,7 @@ namespace CCG.Dev.CodeKata
         [TestCase("18,24,4,66", 112)]
         [TestCase("1\n2,3", 6)]
         [TestCase("//;\n1;2", 3)]
+        [TestCase("//c\n1c2", 3)]
         public void AddReturnsSum(string csvString, int expectedResult) {
             var sum = StringCalculator.Add(csvString);
 
@@ -24,8 +26,17 @@ namespace CCG.Dev.CodeKata
     {        
         static internal int Add(string numberString)
         {
+            var delimeterArray = new List<string>() { "\n", ",", "//" };
+
+            if (numberString.StartsWith("//")) {
+                var customDelimeter = numberString.Split(new string[] { "//", "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
+                TestContext.WriteLine(customDelimeter);
+                delimeterArray.Add(customDelimeter.ToString());
+                TestContext.WriteLine(delimeterArray.ToArray().Length);
+            }
+
             return string.IsNullOrEmpty(numberString) 
-                ? 0 : numberString.Split(new string[] { "\n", "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Sum();
+                ? 0 : numberString.Split(delimeterArray.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Sum();
         }
     }
 }
