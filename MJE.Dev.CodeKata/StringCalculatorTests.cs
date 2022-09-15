@@ -20,6 +20,11 @@ namespace CCG.Dev.CodeKata
 
             Assert.AreEqual(expectedResult, sum);
         }
+
+        [Test]
+        public void AddThrowsExceptionWhenNegativeNumberPassed() {
+            Assert.Throws<Exception>(() => { StringCalculator.Add("-1");  });
+        }
     }
 
     internal class StringCalculator
