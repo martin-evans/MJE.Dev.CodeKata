@@ -23,11 +23,15 @@ namespace CCG.Dev.CodeKata
 
         [Test]
         public void AddThrowsExceptionWhenNegativeNumberPassed() {
-            Assert.Throws<Exception>(() => { StringCalculator.Add("-1");  });
+            
+            Assert.That(() => StringCalculator.Add("-1"), 
+                Throws.TypeOf<Exception>()
+                    .With.Message.EqualTo("negatives not allowed : -1"));
+
         }
     }
 
-    internal class StringCalculator
+    internal static class StringCalculator
     {        
         static internal int Add(string numberString)
         {
@@ -41,7 +45,26 @@ namespace CCG.Dev.CodeKata
             }
 
             return string.IsNullOrEmpty(numberString) 
-                ? 0 : numberString.Split(delimeterArray.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).Sum();
+                ? 0 : numberString
+                    .Split(delimeterArray.ToArray(), StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .Validate()
+                    .Sum();
         }
+
+        private static IEnumerable<int> Validate(this IEnumerable<int> numbers)
+        {
+            var enumerable = numbers as int[] ?? numbers.ToArray();
+            
+            if (enumerable.Any(x => x < 0))
+            {
+                throw new Exception();
+            };
+            
+            return enumerable;
+        }
+
     }
+
+
 }
