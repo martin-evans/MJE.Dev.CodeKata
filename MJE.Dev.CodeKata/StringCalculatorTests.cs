@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace CCG.Dev.CodeKata
 {
@@ -20,38 +21,29 @@ namespace CCG.Dev.CodeKata
 
             Assert.AreEqual(expectedResult, sum);
         }
+        
+        
+        [TestCase("-1, -2, -3, 1","negatives not allowed : -1, -2, -3")]
+        [TestCase("-1, 2, 3, 1","negatives not allowed : -1")]
+        [TestCase("-33","negatives not allowed : -33")]
+        public void AddThrowsExceptionWhenMultipleNegativeNumbersArePassed(string csvNumberString, string expectedExceptionMessage) {
 
-        [Test]
-        public void AddThrowsExceptionWhenNegativeNumberPassed() {
-            
-            Assert.That(() => StringCalculator.Add("-1"), 
+            Assert.That(() => StringCalculator.Add(csvNumberString),
                 Throws.TypeOf<Exception>()
-                    .With.Message.EqualTo("negatives not allowed : -1"));
+                    .With.Message.EqualTo(expectedExceptionMessage));
 
         }
 
         [Test]
-        public void AddThrowsExceptionWhenNegativeNumberPassed_2() {
-
-            Assert.That(() => StringCalculator.Add("-2"),
-                Throws.TypeOf<Exception>()
-                    .With.Message.EqualTo("negatives not allowed : -2"));
-
-        }
-
-        [Test]
-        public void AddThrowsExceptionWhenMultipleNegativeNumbersArePassed() {
-
-            Assert.That(() => StringCalculator.Add("-1, -2, -3, 1"),
-                Throws.TypeOf<Exception>()
-                    .With.Message.EqualTo("negatives not allowed : -1, -2, -3"));
-
+        public void GetCalledCountReturnsNumberOfTimesAddInvoked()
+        {
+            Assert.Fail("WIP - see step 7");
         }
     }
 
     internal static class StringCalculator
     {        
-        static internal int Add(string numberString)
+        internal static int Add(string numberString)
         {
             var delimeterArray = new List<string>() { "\n", ",", "//" };
 
@@ -76,14 +68,13 @@ namespace CCG.Dev.CodeKata
             
             if (enumerable.Any(x => x < 0))
             {
-                var negativeNumber = enumerable.First(x => x < 0);
-                throw new Exception($"negatives not allowed : {negativeNumber}");
+                var negativeNumbers = enumerable.Where(y => y < 0).Select(z=> z.ToString()).ToArray();
+                
+                throw new Exception($"negatives not allowed : {string.Join(", ", negativeNumbers)}");
             };
             
             return enumerable;
         }
 
     }
-
-
 }
