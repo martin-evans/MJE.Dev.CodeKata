@@ -29,6 +29,24 @@ namespace CCG.Dev.CodeKata
                     .With.Message.EqualTo("negatives not allowed : -1"));
 
         }
+
+        [Test]
+        public void AddThrowsExceptionWhenNegativeNumberPassed_2() {
+
+            Assert.That(() => StringCalculator.Add("-2"),
+                Throws.TypeOf<Exception>()
+                    .With.Message.EqualTo("negatives not allowed : -2"));
+
+        }
+
+        [Test]
+        public void AddThrowsExceptionWhenMultipleNegativeNumbersArePassed() {
+
+            Assert.That(() => StringCalculator.Add("-1, -2, -3, 1"),
+                Throws.TypeOf<Exception>()
+                    .With.Message.EqualTo("negatives not allowed : -1, -2, -3"));
+
+        }
     }
 
     internal static class StringCalculator
@@ -58,7 +76,8 @@ namespace CCG.Dev.CodeKata
             
             if (enumerable.Any(x => x < 0))
             {
-                throw new Exception();
+                var negativeNumber = enumerable.First(x => x < 0);
+                throw new Exception($"negatives not allowed : {negativeNumber}");
             };
             
             return enumerable;
