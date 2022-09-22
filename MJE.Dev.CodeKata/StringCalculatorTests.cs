@@ -16,7 +16,7 @@ namespace CCG.Dev.CodeKata
         [TestCase("//;\n1;2", 3)]
         [TestCase("//c\n1c2", 3)]
         public void AddReturnsSum(string csvString, int expectedResult) {
-            var sum = StringCalculator.Add(csvString);
+            var sum = new StringCalculator().Add(csvString);
 
             Assert.AreEqual(expectedResult, sum);
         }
@@ -27,7 +27,7 @@ namespace CCG.Dev.CodeKata
         [TestCase("-33","negatives not allowed : -33")]
         public void AddThrowsExceptionWhenMultipleNegativeNumbersArePassed(string csvNumberString, string expectedExceptionMessage) {
 
-            Assert.That(() => StringCalculator.Add(csvNumberString),
+            Assert.That(() => new StringCalculator().Add(csvNumberString),
                 Throws.TypeOf<Exception>()
                     .With.Message.EqualTo(expectedExceptionMessage));
 
@@ -36,21 +36,23 @@ namespace CCG.Dev.CodeKata
         [Test]
         public void GetCalledCountReturnsNumberOfTimesAddInvoked()
         {
-
-            StringCalculator.Add("1");
-            StringCalculator.Add("1");
-            StringCalculator.Add("1");
-            StringCalculator.Add("1");
+            var stringCalculator = new StringCalculator();
+            stringCalculator.Add("1");
+            stringCalculator.Add("1");
+            stringCalculator.Add("1");
+            stringCalculator.Add("1");
             
-            Assert.AreEqual(4, StringCalculator.GetCalledCount());
+            Assert.AreEqual(4, stringCalculator.GetCalledCount());
 
         }
     }
 
-    internal static class StringCalculator
-    {        
-        internal static int Add(string numberString)
+    internal class StringCalculator
+    {
+        private int addCount;
+        internal int Add(string numberString)
         {
+            addCount++;
             var delimeterArray = new List<string>() { "\n", ",", "//" };
 
             if (numberString.StartsWith("//")) {
@@ -68,23 +70,26 @@ namespace CCG.Dev.CodeKata
                     .Sum();
         }
 
-        private static IEnumerable<int> Validate(this IEnumerable<int> numbers)
+        
+
+        public int GetCalledCount()
         {
-            var enumerable = numbers as int[] ?? numbers.ToArray();
-            
-            if (enumerable.Any(x => x < 0))
-            {
-                var negativeNumbers = enumerable.Where(y => y < 0).Select(z=> z.ToString()).ToArray();
-                
-                throw new Exception($"negatives not allowed : {string.Join(", ", negativeNumbers)}");
-            };
-            
-            return enumerable;
+            return this.addCount;
         }
 
-        public static int GetCalledCount()
-        {
-            throw new NotImplementedException();
-        }
     }
+    internal static class Validator {
+        public static IEnumerable<int> Validate(this IEnumerable<int> numbers) {
+            var enumerable = numbers as int[] ?? numbers.ToArray();
+
+            if (enumerable.Any(x => x < 0)) {
+                var negativeNumbers = enumerable.Where(y => y < 0).Select(z => z.ToString()).ToArray();
+
+                throw new Exception($"negatives not allowed : {string.Join(", ", negativeNumbers)}");
+            };
+
+            return enumerable;
+        }
+    } 
+
 }
