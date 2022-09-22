@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace CCG.Dev.CodeKata
 {
@@ -37,7 +36,14 @@ namespace CCG.Dev.CodeKata
         [Test]
         public void GetCalledCountReturnsNumberOfTimesAddInvoked()
         {
-            Assert.Fail("WIP - see step 7");
+
+            StringCalculator.Add("1");
+            StringCalculator.Add("1");
+            StringCalculator.Add("1");
+            StringCalculator.Add("1");
+            
+            Assert.AreEqual(4, StringCalculator.GetCalledCount());
+
         }
     }
 
@@ -76,5 +82,9 @@ namespace CCG.Dev.CodeKata
             return enumerable;
         }
 
+        public static int GetCalledCount()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
