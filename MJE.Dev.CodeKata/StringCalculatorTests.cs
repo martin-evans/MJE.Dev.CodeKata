@@ -45,14 +45,28 @@ namespace CCG.Dev.CodeKata
             Assert.AreEqual(4, stringCalculator.GetCalledCount());
 
         }
+
+        [Test]
+        public void Foo() { 
+            var stringCalculator = new StringCalculator();
+            stringCalculator.AddOccured += StringCalculator_AddOccured;
+            stringCalculator.AddOccured += (s, i) => { Console.WriteLine($"From anonymous method: {s}: {i}");  }; 
+            stringCalculator.Add("1");
+        }
+
+        private void StringCalculator_AddOccured(string arg1, int arg2) {
+            Console.WriteLine($"From method: {arg1}: {arg2}");
+        }
     }
 
-    internal class StringCalculator
-    {
+    internal class StringCalculator {
         private int addCount;
-        internal int Add(string numberString)
-        {
+
+        public event Action<string, int> AddOccured;
+
+        internal int Add(string numberString) {
             addCount++;
+            AddOccured.Invoke(numberString, 99);
             var delimeterArray = new List<string>() { "\n", ",", "//" };
 
             if (numberString.StartsWith("//")) {
@@ -62,7 +76,7 @@ namespace CCG.Dev.CodeKata
                 TestContext.WriteLine(delimeterArray.ToArray().Length);
             }
 
-            return string.IsNullOrEmpty(numberString) 
+            return string.IsNullOrEmpty(numberString)
                 ? 0 : numberString
                     .Split(delimeterArray.ToArray(), StringSplitOptions.RemoveEmptyEntries)
                     .Select(int.Parse)
@@ -70,12 +84,10 @@ namespace CCG.Dev.CodeKata
                     .Sum();
         }
 
-        
-
-        public int GetCalledCount()
-        {
+        public int GetCalledCount() {
             return this.addCount;
         }
+
 
     }
     internal static class Validator {
