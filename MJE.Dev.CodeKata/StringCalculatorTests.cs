@@ -66,7 +66,8 @@ namespace CCG.Dev.CodeKata
 
         internal int Add(string numberString) {
             addCount++;
-            AddOccured.Invoke(numberString, 99);
+            AddOccured?.Invoke(numberString, 99);
+
             var delimeterArray = new List<string>() { "\n", ",", "//" };
 
             if (numberString.StartsWith("//")) {
