@@ -49,14 +49,73 @@ namespace CCG.Dev.CodeKata
         [Test]
         public void Foo() { 
             var stringCalculator = new StringCalculator();
+            
             stringCalculator.AddOccured += StringCalculator_AddOccured;
             stringCalculator.AddOccured += (s, i) => { Console.WriteLine($"From anonymous method: {s}: {i}");  }; 
+            
             stringCalculator.Add("1");
+            
         }
 
         private void StringCalculator_AddOccured(string arg1, int arg2) {
             Console.WriteLine($"From method: {arg1}: {arg2}");
         }
+
+
+
+        [Test]
+        public void DelegateThing()
+        {
+            var f = new Bar();
+            
+            
+            var answer =  f.Run(1,2,3, Bar.Bernard);
+            
+            Assert.AreEqual(6, answer);
+
+
+            f.Run(2, 4, 6, TrunkOfFunk);
+            f.Run(2, 4, 6, (i, i1, arg3) => i1+arg3);
+
+        }
+
+        private int TrunkOfFunk(int arg1, int arg2, int arg3)
+        {
+            return 897 * arg3;
+        }
+    }
+
+    public class Bar
+    {
+        public int Run(int i, int i1, int i2,  Func<int, int, int, int> trunkOfFunk)
+        {
+
+            if (i > 7)
+            {
+                return 99;
+            } 
+            
+            return trunkOfFunk(i, i1, i2);
+            
+            
+        }
+
+        public static int Sum(int i, int i1, int i2)
+        {
+            return i + i1 + i2;
+        }
+        
+        public static int Multiply(int i, int i1, int i2)
+        {
+            return i * i1 * i2;
+        }
+        
+        public static int Bernard(int i, int i1, int i2)
+        {
+            return 99;
+        }
+        
+        
     }
 
     internal class StringCalculator {
