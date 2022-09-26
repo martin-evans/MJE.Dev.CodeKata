@@ -12,6 +12,7 @@ namespace CCG.Dev.CodeKata
         [TestCase("1, 2", 3)]
         [TestCase("18,24,4", 46)]
         [TestCase("18,24,4,66", 112)]
+        [TestCase("1,2,1001,2000,4,1000", 7)]
         [TestCase("1\n2,3", 6)]
         [TestCase("//;\n1;2", 3)]
         [TestCase("//c\n1c2", 3)]
