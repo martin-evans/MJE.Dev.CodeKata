@@ -12,10 +12,11 @@ namespace CCG.Dev.CodeKata
         [TestCase("1, 2", 3)]
         [TestCase("18,24,4", 46)]
         [TestCase("18,24,4,66", 112)]
-        [TestCase("1,2,1001,2000,4,1000", 7)]
         [TestCase("1\n2,3", 6)]
         [TestCase("//;\n1;2", 3)]
         [TestCase("//c\n1c2", 3)]
+        [TestCase("1,2,1001,2000,4,1000", 7)]
+        [TestCase("//[***]\n1***2***3", 6)]
         public void AddReturnsSum(string csvString, int expectedResult) {
             var sum = new StringCalculator().Add(csvString);
 
@@ -73,19 +74,19 @@ namespace CCG.Dev.CodeKata
             addCount++;
             AddOccured?.Invoke(numberString, 99);
 
-            var delimeterArray = new List<string>() { "\n", ",", "//" };
+            var delimeterArray = new List<string>() { "\n", ",", "//", "[", "]" };
 
             if (numberString.StartsWith("//")) {
                 var customDelimeter = numberString.Split(new string[] { "//", "\n" }, StringSplitOptions.RemoveEmptyEntries)[0];
-                TestContext.WriteLine(customDelimeter);
+                customDelimeter = customDelimeter.Trim('[').Trim(']');
                 delimeterArray.Add(customDelimeter.ToString());
-                TestContext.WriteLine(delimeterArray.ToArray().Length);
             }
 
             return string.IsNullOrEmpty(numberString)
                 ? 0 : numberString
                     .Split(delimeterArray.ToArray(), StringSplitOptions.RemoveEmptyEntries)
                     .Select(int.Parse)
+                    .Where(x => x < 1000)
                     .Validate()
                     .Sum();
         }
@@ -93,9 +94,8 @@ namespace CCG.Dev.CodeKata
         public int GetCalledCount() {
             return this.addCount;
         }
-
-
     }
+
     internal static class Validator {
         public static IEnumerable<int> Validate(this IEnumerable<int> numbers) {
             var enumerable = numbers as int[] ?? numbers.ToArray();
